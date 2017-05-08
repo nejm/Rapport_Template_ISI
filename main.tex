@@ -1,0 +1,109 @@
+
+%========= File containing the main LaTex document ========%
+%                                                          %
+% Copyright (C) ISI - All Rights Reserved                  %
+% Proprietary                                              %
+% Written by Med Hossam <med.hossam@gmail.com>, April 2016 %
+%                                                          %
+% @author: HEDHILI Med Houssemeddine                       %
+% @linkedin: http://tn.linkedin.com/in/medhossam           %
+%==========================================================%
+
+\documentclass[pfe]{./tpl/isipfe}
+\graphicspath{{./img/}}
+
+
+
+\usepackage{array,longtable,multirow}s
+\usepackage{biblatex}
+\usepackage{xpatch}
+
+\usepackage[table]{xcolor}
+
+% define lightgray
+\definecolor{lightgray}{gray}{0.95}
+
+% alternate rowcolors for all tables
+\let\oldtabular\tabular
+\let\endoldtabular\endtabular
+\renewenvironment{tabular}{\rowcolors{2}{white}{lightgray}\oldtabular}{\endoldtabular}
+
+% alternate rowcolors for all long-tables
+\let\oldlongtable\longtable
+\let\endoldlongtable\endlongtable
+\renewenvironment{longtable}{\rowcolors{2}{white}{lightgray}\oldlongtable} {
+\endoldlongtable}
+
+\xpatchbibdriver{online}
+  {\printtext[parens]{\usebibmacro{date}}}
+  {\iffieldundef{year}
+    {}
+    {\printtext[parens]{\usebibmacro{date}}}}
+  {}
+  {\typeout{There was an error patching biblatex-ieee (specifically, ieee.bbx's @online driver)}}
+
+
+\addbibresource{biblio.bib}
+
+%\usepackage{hyperref}
+
+\input{./tpl/new_commands}
+
+\begin{document}
+    \input{global_config}
+    \renewcommand{\arraystretch}{1.2}
+    \renewcommand{\thesection}{\arabic{section}}
+    \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+    \frontmatter
+        \input{tpl/cover_page}
+        \include{tpl/cover_page_black}
+        \input{tpl/signatures}
+        
+        \setcounter{page}{1}
+        \input{dedicaces}
+        \thispagestyle{frontmatter}
+        \input{remerciement}
+        \thispagestyle{frontmatter}
+        
+        \setcounter{secnumdepth}{3}
+        \setcounter{tocdepth}{2}
+        \dominitoc
+        \tableofcontents
+        \adjustmtc
+        \thispagestyle{frontmatter}
+        
+        \listoffigures
+        \thispagestyle{frontmatter}
+        \listoftables
+        \thispagestyle{frontmatter}
+        
+        \input{acronymes}
+        \thispagestyle{frontmatter}
+    
+    \mainmatter
+        \input{introduction}
+        \clearpage
+        
+        \input{chap_01}
+        \clearpage
+        
+        \input{chap_02}
+        \clearpage
+        
+        %\input{chap_03}
+        \clearpage
+        
+        %\input{chap_04}
+        \clearpage
+        
+        %\input{conclusion}
+        \clearpage
+        \printbibliography
+        
+        %\input{annexes}
+        %\clearpage
+
+    \backmatter
+        \input{./tpl/resume}
+    
+\end{document}
